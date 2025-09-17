@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: stg_stack_questions
+    description: "Staging model for StackOverflow questions data"
+    columns:
+      - name: id
+        description: "Unique question ID"
+        tests:
+          - not_null
+          - unique
+      - name: title
+        description: "Question title"
+      - name: creation_date
+        description: "Timestamp the question was created"
+      - name: owner_user_id
+        description: "User ID of the asker (can be NULL if user deleted)"
+        tests:
+          - relationships:
+              to: ref('stg_stack_users')
+              field: id
+
+  - name: stg_stack_users
+    description: "Staging model for StackOverflow users"
+    columns:
+      - name: id
+        description: "Unique user ID"
+        tests:
+          - not_null
+          - unique
+      - name: display_name
+        description: "User's display name"
+      - name: creation_date
+        description: "User account creation timestamp"
+
+  - name: fct_stack_questions_by_year
+    description: "Fact model: number of StackOverflow questions created each year"
+    columns:
+      - name: year
+        description: "Year of question creation"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+                quote: false
+      - name: question_count
+        description: "Total questions asked that year"
+        
+  - name: fct_stack_questions_by_user
+    description: "Fact model: number of questions asked per user"
+    columns:
+      - name: user_id
+        description: "ID of the user who asked questions"
+        tests:
+          - not_null
+      - name: question_count
+        description: "Total questions asked by the user"
+        tests:
+          - not_null
+

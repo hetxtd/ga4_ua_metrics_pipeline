@@ -1,0 +1,25 @@
+[0m22:01:32.170848 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000160D0071450>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000160D00626D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000160D0071650>]}
+
+
+============================== 22:01:32.172103 | 17f6ff0c-8c0b-4d2c-952e-40c9ec2dbec0 ==============================
+[0m22:01:32.172103 [info ] [MainThread]: Running with dbt=1.10.11
+[0m22:01:32.172103 [debug] [MainThread]: running dbt with arguments {'partial_parse': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'send_anonymous_usage_stats': 'True', 'version_check': 'True', 'cache_selected_only': 'False', 'target_path': 'None', 'use_colors': 'True', 'invocation_command': 'dbt init ga4_ua_metrics', 'log_format': 'default', 'warn_error': 'None', 'introspect': 'True', 'debug': 'False', 'log_cache_events': 'False', 'fail_fast': 'False', 'no_print': 'None', 'use_experimental_parser': 'False', 'quiet': 'False', 'empty': 'None', 'printer_width': '80', 'log_path': 'logs', 'indirect_selection': 'eager', 'profiles_dir': 'C:\\Users\\nasti\\.dbt', 'static_parser': 'True', 'write_json': 'True'}
+[0m22:01:32.231538 [info ] [MainThread]: Creating dbt configuration folder at C:\Users\nasti\.dbt
+[0m22:01:32.231538 [debug] [MainThread]: Starter project path: C:\Users\nasti\dbt-env\Lib\site-packages\dbt\include\starter_project
+[0m22:01:32.365798 [info ] [MainThread]: 
+Your new dbt project "ga4_ua_metrics" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m22:01:32.365798 [info ] [MainThread]: Setting up your profile.
