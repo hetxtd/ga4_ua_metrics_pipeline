@@ -32,6 +32,8 @@ models:
         description: "User's display name"
       - name: creation_date
         description: "User account creation timestamp"
+      - name: reputation
+        description: "Reputation score on StackOverflow"
 
   - name: fct_stack_questions_by_year
     description: "Fact model: number of StackOverflow questions created each year"
@@ -58,4 +60,20 @@ models:
         description: "Total questions asked by the user"
         tests:
           - not_null
+          
+  - name: dim_users
+    description: "Dimension table of users with key attributes"
+    columns:
+      - name: user_id
+        description: "Primary key for the user dimension"
+        tests:
+          - not_null
+          - unique
+      - name: display_name
+        description: "Username shown publicly"
+      - name: reputation
+        description: "Reputation score on StackOverflow"
+      - name: creation_date
+        description: "When the account was created"
+
 

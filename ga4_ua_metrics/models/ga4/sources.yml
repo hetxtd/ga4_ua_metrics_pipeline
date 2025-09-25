@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: ga4_sample
+    description: "Google's public GA4 sample dataset (ecommerce)."
+    database: bigquery-public-data
+    schema: ga4_obfuscated_sample_ecommerce
+    tables:
+      - name: events_sample
+        description: "Daily sharded GA4 events tables: events_YYYYMMDD. We will query with a wildcard in SQL."
+        identifier: events_*   # Note: we'll use the wildcard directly in SQL for BigQuery

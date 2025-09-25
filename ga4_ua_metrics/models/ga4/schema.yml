@@ -1,0 +1,189 @@
+version: 2
+
+models:
+  - name: stg_ga4_events
+    description: "Clean slice of GA4 events from the public sample dataset (Jan 2021)."
+    columns:
+      - name: event_date
+        description: "Event date (DATE)"
+        tests:
+          - not_null
+      - name: event_name
+        description: "GA4 event name"
+        tests:
+          - not_null
+      - name: user_pseudo_id
+        description: "GA4 anonymous user ID"
+        tests:
+          - not_null
+
+  - name: stg_ga4_pageviews
+    description: "GA4 page_view events (Jan 2021 sample)."
+    columns:
+      - name: event_date
+        description: "Event date (DATE)"
+        tests:
+          - not_null
+      - name: user_pseudo_id
+        description: "GA4 anonymous user ID"
+        tests:
+          - not_null
+
+  - name: fct_ga4_pageviews_by_date
+    description: "Daily pageviews from GA4 (Jan 2021 sample)."
+    columns:
+      - name: event_date
+        description: "Date"
+        tests:
+          - not_null
+      - name: pageviews
+        description: "Total pageviews on the date"
+        tests:
+          - not_null
+
+  - name: stg_ga4_sessions
+    description: "GA4 session_start events (Jan 2021 sample)."
+    columns:
+      - name: event_date
+        description: "Event date (DATE)"
+        tests:
+          - not_null
+      - name: user_pseudo_id
+        description: "GA4 anonymous user ID"
+        tests:
+          - not_null
+
+  - name: fct_ga4_sessions_by_date
+    description: "Daily sessions from GA4 (Jan 2021 sample)."
+    columns:
+      - name: event_date
+        description: "Date"
+        tests:
+          - not_null
+      - name: sessions
+        description: "Total sessions per day"
+        tests:
+          - not_null
+
+  - name: stg_ga4_users
+    description: "User-level staging data (Jan 2021 sample)."
+    columns:
+      - name: user_pseudo_id
+        description: "GA4 anonymous user ID"
+        tests:
+          - not_null
+          - unique
+      - name: first_seen_date
+        description: "Date of first event for this user"
+        tests:
+          - not_null
+      - name: total_events
+        description: "Total number of events for this user"
+        tests:
+          - not_null
+
+  - name: dim_ga4_users
+    description: "GA4 user dimension (Jan 2021 sample)."
+    columns:
+      - name: user_pseudo_id
+        description: "GA4 anonymous user ID"
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_ga4_engagement_by_date
+    description: "Daily GA4 engagement summary (pageviews, sessions, pages_per_session)."
+    columns:
+      - name: event_date
+        description: "Date"
+        tests:
+          - not_null
+      - name: pageviews
+        description: "Total pageviews on the date"
+        tests:
+          - not_null
+      - name: sessions
+        description: "Total sessions on the date"
+        tests:
+          - not_null
+      - name: pages_per_session
+        description: "pageviews / sessions (SAFE_DIVIDE)"
+        tests:
+          - not_null
+
+  - name: dim_date
+    description: "Calendar dimension (date spine with useful attributes)."
+    columns:
+      - name: date
+        description: "Primary key: calendar date"
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_ga4_engagement_by_month
+    description: "Monthly rollup of GA4 engagement."
+    columns:
+      - name: year_month
+        tests: [not_null]
+      - name: pageviews
+        tests: [not_null]
+      - name: sessions
+        tests: [not_null]
+      - name: pages_per_session
+        tests: [not_null]
+
+  - name: dim_ga4_events
+    description: "One row per GA4 event_name with reporting labels."
+    columns:
+      - name: event_name
+        description: "Event name (primary key)."
+        tests:
+          - not_null
+          - unique
+      - name: event_group
+        description: "Reporting category for the event."
+        tests:
+          - not_null
+      - name: is_core_event
+        description: "TRUE if GA4 core event."
+        tests:
+          - not_null
+
+  - name: fct_ga4_pageviews_by_date
+    columns:
+      - name: event_date
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date
+
+  - name: fct_ga4_sessions_by_date
+    columns:
+      - name: event_date
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date
+
+  - name: stg_ga4_events
+    columns:
+      - name: event_name
+        tests:
+          - relationships:
+              to: ref('dim_ga4_events')
+              field: event_name
+
+  - name: kpi_ga4_last_7_28
+    description: "KPI table comparing last 7 vs 28 days (anchored to max sample date)."
+    columns:
+      - name: window_label
+        tests: [not_null]
+      - name: pageviews
+        tests: [not_null]
+      - name: sessions
+        tests: [not_null]
+      - name: pages_per_session
+        tests: [not_null]
+
+
+
